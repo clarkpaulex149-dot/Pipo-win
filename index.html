@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ht">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PIPO WIN</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header>
+  <div class="logo">PIPO <span>WIN</span></div>
+  <div class="langs">
+    <button onclick="setLang('ht')">KRE</button>
+    <button onclick="setLang('fr')">FR</button>
+    <button onclick="setLang('en')">EN</button>
+  </div>
+</header>
+
+<main>
+<section id="home" class="hero">
+  <div class="pill">🎁 PIPO WIN</div>
+  <h1 id="heroTitle">Chwazi nimewo ou.</h1>
+  <p id="heroText">Enskri, chwazi yon nimewo ant 1 ak 100 epi patisipe nan tiraj la.</p>
+  <button class="primary" onclick="show('register')">Kòmanse</button>
+  <button class="secondary" onclick="show('login')">Konekte</button>
+</section>
+
+<section id="register" class="card hidden">
+  <h2>Kreye kont ou</h2>
+  <form id="registerForm">
+    <input id="rName" placeholder="Non konplè" required>
+    <input id="rEmail" type="email" placeholder="Email" required>
+    <input id="rPassword" type="password" minlength="8" placeholder="Modpas (8+ karaktè)" required>
+    <button class="primary">Enskri</button>
+  </form>
+  <p>Ou deja gen kont? <button class="link" onclick="show('login')">Konekte</button></p>
+</section>
+
+<section id="login" class="card hidden">
+  <h2>Konekte</h2>
+  <form id="loginForm">
+    <input id="lEmail" type="email" placeholder="Email" required>
+    <input id="lPassword" type="password" placeholder="Modpas" required>
+    <button class="primary">Konekte</button>
+  </form>
+  <p>Ou poko gen kont? <button class="link" onclick="show('register')">Enskri</button></p>
+</section>
+
+<section id="draw" class="card hidden">
+  <div class="top"><span>Bonjou, <b id="userName"></b></span><button class="logout" onclick="logout()">Dekonekte</button></div>
+  <h2>Chwazi yon nimewo</h2>
+  <p>Yon nimewo ka pran yon sèl fwa.</p>
+  <div id="numbers" class="numbers"></div>
+  <div id="selected" class="selected"></div>
+  <div id="winner" class="winner hidden"></div>
+</section>
+</main>
+
+<footer>© 2026 PIPO WIN</footer>
+<script src="/app.js"></script>
+</body>
+</html>

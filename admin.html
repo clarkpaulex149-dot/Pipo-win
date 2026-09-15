@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ht">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PIPO WIN — Admin</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header>
+  <div class="logo">PIPO <span>WIN</span></div>
+  <a class="secondary" href="/">Sit la</a>
+</header>
+<main>
+<section class="admin card">
+  <h1>🔐 PIPO WIN Administration</h1>
+  <p>Zòn sa a pwoteje sou server la.</p>
+  <div class="stats">
+    <div><b id="total">0</b><span>Patisipan</span></div>
+    <div><b id="used">0</b><span>Nimewo pran</span></div>
+    <div><b id="status">Pa fèt</b><span>Tiraj</span></div>
+  </div>
+  <button id="drawBtn" class="primary danger" onclick="drawNow()">🎲 LANSE TIRAJ</button>
+  <div id="result" class="winner"></div>
+  <h2>Patisipan</h2>
+  <div class="tableWrap">
+  <table><thead><tr><th>Non</th><th>Email</th><th>Nimewo</th><th>Dat</th></tr></thead>
+  <tbody id="rows"></tbody></table>
+  </div>
+</section>
+</main>
+<script>
+async function api(u,o={}){const r=await fetch(u,{credentials:"same-origin",...o,headers:{"Content-Type":"application/json",...(o.headers||{})}});const d=await r.json();if(!r.ok)throw Error(d.error||"Erè");return d}
+function esc(x){const d=document.createElement("div");d.textContent=x??"";return d.innerHTML}
+async function load(){
+ try{
+  const p=await api("/api/admin/participants");
+  rows.innerHTML="";
+  p.participants.forEach(u=>rows.innerHTML+=`<tr><td>${esc(u.name)}</td><td>${esc(u.email)}</td><td>${u.selected_number||"—"}</td><td>${esc(u.created_at)}</td></tr>`);
+  total.textContent=p.participants.length;
+  used.textContent=p.participants.filter(x=>x.selected_number).length;
+  const s=await api("/api/admin/status");
+  if(s.draw){status.textContent="Fèt";drawBtn.disabled=true;result.innerHTML=`<h2>🏆 Tiraj fèt</h2><p>Nimewo gayan: <b>${s.draw.winner_number}</b></p>`}
+ }catch(e){alert(e.message);location.href="/"}
+}
+async function drawNow(){
+ if(!confirm("Èske ou sèten? Tiraj sa a pap ka refèt."))return;
+ try{const d=await api("/api/admin/draw",{method:"POST"});result.innerHTML=`<h2>🏆 GANYAN AN</h2><p>Non: <b>${esc(d.winner.name)}</b></p><p>Nimewo: <b>${d.winner.number}</b></p>`;drawBtn.disabled=true;status.textContent="Fèt";load()}catch(e){alert(e.message)}
+}
+load();
+</script>
+</body>
+</html>
